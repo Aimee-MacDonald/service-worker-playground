@@ -7,3 +7,14 @@ window.addEventListener("load", () => {
     console.log("Index: Service Worker NOT Supported");
   }
 });
+
+function postNote(){
+  var msg = document.getElementById("note").value;
+
+  fetch("/postNote", {
+    method: "post",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({'note': msg})
+  })
+  return false;
+}
