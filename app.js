@@ -15,4 +15,6 @@ app.post("/postNote", (req, res) => {
   console.log(list);
 });
 
+app.get("/getList", (req, res) => {res.status(200).send(JSON.stringify({"list": list}))});
+
 app.listen(8080, () => console.log("Server Listening on Port: 8080"));

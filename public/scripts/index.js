@@ -6,6 +6,8 @@ window.addEventListener("load", () => {
   } else {
     console.log("Index: Service Worker NOT Supported");
   }
+
+  getNotes();
 });
 
 function postNote(){
@@ -17,4 +19,25 @@ function postNote(){
     body: JSON.stringify({'note': msg})
   })
   return false;
+}
+
+function getNotes(){
+  fetch("/getList")
+    .then(response => {
+      if(response.status >= 200 && response.status <= 300){
+        return Promise.resolve(response);
+      } else {
+        return Promise.reject(new Error(response.statusText));
+      }
+    })
+    .then(response => {return response.json()})
+    .then(data => {
+      var el_list = document.getElementById("notes");
+      data.list.forEach(note => {
+        var el_note = document.createElement("li");
+        el_note.innerText = note;
+        el_list.append(el_note);
+      })
+    })
+    .catch(err => console.log("Error: " + err))
 }
